@@ -1,36 +1,42 @@
+
+# This is the server logic for a Shiny web application.
+# You can find out more about building applications with Shiny here:
+# 
+# http://www.rstudio.com/shiny/
+#
+
 library(shiny)
 
-
-shinyServer(function(input, output) { 
- output$table1<- renderTable({
-    
-    # input$file1 will be NULL initially. After the user selects and uploads a 
-    # file, it will be a data frame with 'name', 'size', 'type', and 'datapath' 
-    # columns. The 'datapath' column will contain the local filenames where the 
-    # data can be found.
-    
-    inFile <- input$file1
-    
-    if (is.null(inFile))
+shinyServer(function(input, output) {
+  
+  
+  output$filetable1 <- reactiveTable(function() {
+    if (is.null(input$files1)) {
+      # User has not uploaded a file yet
       return(NULL)
+    }
     
-    read.csv(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote)
+    file1<-input$files1
+    
+    input$files1
+  })
+  
+  output$filetable2 <- reactiveTable(function() {
+    if (is.null(input$files2)) {
+      # User has not uploaded a file yet
+      return(NULL)
+    }
+    browser()
+    input$files2
+  })
+  
+  output$distPlot <- renderPlot({
+     
+    # generate and plot an rnorm distribution with the requested
+    # number of observations
+    dist <- rnorm(input$obs)
+    hist(dist)
     
   })
   
- output$table2<- renderTable({
-    
-    # input$file1 will be NULL initially. After the user selects and uploads a 
-    # file, it will be a data frame with 'name', 'size', 'type', and 'datapath' 
-    # columns. The 'datapath' column will contain the local filenames where the 
-    # data can be found.
-    
-    inFile <- input$file2
-    
-    if (is.null(inFile))
-      return(NULL)
-    
-    read.csv(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote)
-    
-  })
 })

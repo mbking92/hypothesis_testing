@@ -1,44 +1,32 @@
+
+# This is the user-interface definition of a Shiny web application.
+# You can find out more about building applications with Shiny here:
+# 
+# http://www.rstudio.com/shiny/
+#
+
 library(shiny)
 
 shinyUI(pageWithSidebar(
-  headerPanel("CSV Viewer"),
+  
+  # Application title
+  headerPanel("New Application"),
+  
+  # Sidebar with a slider input for number of observations
   sidebarPanel(
-    fileInput('file2', 'Choose CSV File',
-              accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv')),
-    tags$hr(),
-    checkboxInput('header', 'Header', TRUE),
-    radioButtons('sep', 'Separator',
-                 c(Comma=',',
-                   Semicolon=';',
-                   Tab='\t'),
-                 'Comma'),
-    radioButtons('quote', 'Quote',
-                 c(None='',
-                   'Double Quote'='"',
-                   'Single Quote'="'"),
-                 'Double Quote')
+    sliderInput("obs", 
+                "Number of observations:", 
+                min = 1, 
+                max = 100, 
+                value = 50),
+    fileInput("files1", "File data", multiple=TRUE),
+    fileInput("files2", "File data", multiple=TRUE)
   ),
-  mainPanel(tableOutput('table2')
-  )
-))
-shinyUI(pageWithSidebar(
-  headerPanel("CSV Viewer"),
-  sidebarPanel(
-    fileInput('file1', 'Choose CSV File',
-              accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv')),
-    tags$hr(),
-    checkboxInput('header', 'Header', TRUE),
-    radioButtons('sep', 'Separator',
-                 c(Comma=',',
-                   Semicolon=';',
-                   Tab='\t'),
-                 'Comma'),
-    radioButtons('quote', 'Quote',
-                 c(None='',
-                   'Double Quote'='"',
-                   'Single Quote'="'"),
-                 'Double Quote')
-  ),
-  mainPanel(tableOutput('table1')
+  
+  # Show a plot of the generated distribution
+  mainPanel(
+    plotOutput("distPlot"),
+    tableOutput("filetable1"),
+    tableOutput("filetable2")
   )
 ))

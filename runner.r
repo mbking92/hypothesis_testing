@@ -1,2 +1,2 @@
-runApp("app-3")
+runApp("hypothesis_testing")
 
