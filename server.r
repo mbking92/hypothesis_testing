@@ -7,10 +7,24 @@
 
 library(shiny)
 
+mean<-function(item="a"){
+  paste("I'm so mean",item)
+}
+
+median<-function(item="b"){
+  "I'm in the middle"
+}
+
 shinyServer(function(input, output) {
   
+  # Return the requested dataset
+  stat_function <- reactive({
+    switch(input$hyp_test,
+           "mean" = mean,
+           "median" = median)
+  })
   
-  output$filetable1 <- reactiveTable(function() {
+  output$filetable1 <- renderTable(function() {
     if (is.null(input$files1)) {
       # User has not uploaded a file yet
       return(NULL)
@@ -21,7 +35,7 @@ shinyServer(function(input, output) {
     input$files1
   })
   
-  output$filetable2 <- reactiveTable(function() {
+  output$filetable2 <- renderTable(function() {
     if (is.null(input$files2)) {
       # User has not uploaded a file yet
       return(NULL)
@@ -29,13 +43,10 @@ shinyServer(function(input, output) {
     input$files2
   })
   
-  output$distPlot <- renderPlot({
-     
-    # generate and plot an rnorm distribution with the requested
-    # number of observations
-    dist <- rnorm(input$obs)
-    hist(dist)
-    
+  # Generate a summary of the dataset
+  output$stat_output <- renderPrint({
+    fn<-stat_function()
+    fn("test")
   })
   
 })

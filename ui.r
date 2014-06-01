@@ -14,19 +14,16 @@ shinyUI(pageWithSidebar(
   
   # Sidebar with a slider input for number of observations
   sidebarPanel(
-    sliderInput("obs", 
-                "Number of observations:", 
-                min = 1, 
-                max = 100, 
-                value = 50),
+    selectInput("hyp_test","Test Type:",c("mean","median")),
     fileInput("files1", "File data", multiple=TRUE),
     fileInput("files2", "File data", multiple=TRUE)
   ),
   
   # Show a plot of the generated distribution
   mainPanel(
-    plotOutput("distPlot"),
     tableOutput("filetable1"),
-    tableOutput("filetable2")
+    tableOutput("filetable2"),
+    h4("Summary"),
+    verbatimTextOutput("stat_output")
   )
 ))
