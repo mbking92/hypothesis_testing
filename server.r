@@ -26,7 +26,6 @@ shinyServer(function(input, output) {
       # User has not uploaded a file yet
       return(NULL)
     }
-    browser()
     input$files2
   })
   
