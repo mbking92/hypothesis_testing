@@ -7,12 +7,12 @@
 
 library(shiny)
 
-mean<-function(item="a"){
-  paste("I'm so mean",item)
+mn<-function(item="b"){
+  mean(item)
 }
 
-median<-function(item="b"){
-  "I'm in the middle"
+md<-function(item="a"){
+  median(item)
 }
 
 shinyServer(function(input, output) {
@@ -20,33 +20,38 @@ shinyServer(function(input, output) {
   # Return the requested dataset
   stat_function <- reactive({
     switch(input$hyp_test,
-           "mean" = mean,
-           "median" = median)
+           "mean" = mn,
+           "median" = md)
+    
+    
   })
   
-  output$filetable1 <- renderTable(function() {
-    if (is.null(input$files1)) {
-      # User has not uploaded a file yet
+  table1 <- function(){
+    inFile <- input$file1
+    if (is.null(inFile))
       return(NULL)
-    }
+      
+    return (read.csv(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote))
     
-    file1<-input$files1
+
     
-    input$files1
-  })
+  }
   
-  output$filetable2 <- renderTable(function() {
-    if (is.null(input$files2)) {
-      # User has not uploaded a file yet
+  table2<- function() {
+    inFile <- input$file2
+    
+    if (is.null(inFile))
       return(NULL)
-    }
-    input$files2
-  })
+    
+    return (read.csv(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote))
+  }
   
   # Generate a summary of the dataset
   output$stat_output <- renderPrint({
     fn<-stat_function()
-    fn("test")
+    
+    test<-table1()
+    fn(test$gpa)
   })
   
 })

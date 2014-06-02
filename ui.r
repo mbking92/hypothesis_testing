@@ -10,13 +10,25 @@ library(shiny)
 shinyUI(pageWithSidebar(
   
   # Application title
-  headerPanel("New Application"),
+  headerPanel("Hypothesis Testing"),
   
   # Sidebar with a slider input for number of observations
   sidebarPanel(
     selectInput("hyp_test","Test Type:",c("mean","median")),
-    fileInput("files1", "File data", multiple=TRUE),
-    fileInput("files2", "File data", multiple=TRUE)
+    fileInput("file1", "File data", multiple=FALSE),
+    fileInput("file2", "File data", multiple=FALSE),
+    tags$hr(),
+    checkboxInput('header', 'Header', TRUE),
+    radioButtons('sep', 'Separator',
+                 c(Comma=',',
+                   Semicolon=';',
+                   Tab='\t'),
+                 'Comma'),
+    radioButtons('quote', 'Quote',
+                 c(None='',
+                   'Double Quote'='"',
+                   'Single Quote'="'"),
+                 'Double Quote')
   ),
   
   # Show a plot of the generated distribution
