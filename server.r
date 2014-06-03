@@ -7,21 +7,15 @@
 
 library(shiny)
 
-mn<-function(item="b"){
-  mean(item)
-}
-
-md<-function(item="a"){
-  median(item)
-}
 
 shinyServer(function(input, output) {
   
   # Return the requested dataset
-  stat_function <- reactive({
+  switch_function <- reactive({
     switch(input$hyp_test,
-           "mean" = mn,
-           "median" = md)
+           "mean" = mean,
+           "median" = median,
+           "wilcox"=wilcox.test)
     
     
   })
@@ -48,10 +42,18 @@ shinyServer(function(input, output) {
   
   # Generate a summary of the dataset
   output$stat_output <- renderPrint({
-    fn<-stat_function()
+    fn<-switch_function()
     
-    test<-table1()
-    fn(test$gpa)
+    test1<-table1()
+    test2<-table2()
+    fn(test1$gpa, test2$gpa)
+
   })
+  # Generate a summary of the dataset
+  output$summary <- renderPrint({
+
+    summary(table1())
+  })
+  
   
 })

@@ -14,7 +14,7 @@ shinyUI(pageWithSidebar(
   
   # Sidebar with a slider input for number of observations
   sidebarPanel(
-    selectInput("hyp_test","Test Type:",c("mean","median")),
+    selectInput("hyp_test","Test Type:",c("mean","median","wilcox")),
     fileInput("file1", "File data", multiple=FALSE),
     fileInput("file2", "File data", multiple=FALSE),
     tags$hr(),
@@ -36,6 +36,7 @@ shinyUI(pageWithSidebar(
     tableOutput("filetable1"),
     tableOutput("filetable2"),
     h4("Summary"),
-    verbatimTextOutput("stat_output")
+    verbatimTextOutput("stat_output"),
+    verbatimTextOutput("summary")
   )
 ))
