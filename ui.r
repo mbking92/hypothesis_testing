@@ -7,13 +7,12 @@
 
 library(shiny)
 
-
 shinyUI(pageWithSidebar(
   
   # Application title
   headerPanel("Hypothesis Testing"),
   
-  # Sidebar with a slider input for number of observations
+  # Sidebar with a slider input for number of observations!
   sidebarPanel(
     selectInput("hyp_test","Test Type:",c("mean","median","wilcox")),
     fileInput("file1", "File data", multiple=FALSE),
